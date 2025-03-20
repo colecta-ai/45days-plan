@@ -1,0 +1,5164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colecta AI - Personalized AI Agents</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global styles */
+      :root {
+        --primary: #5925dc;
+        --primary-dark: #4a1eb6;
+        --primary-light: #ebe4ff;
+        --secondary: #1890ff;
+        --secondary-light: #e6f7ff;
+        --purple: #722ed1;
+        --purple-light: #f9f0ff;
+        --success: #52c41a;
+        --success-light: #f6ffed;
+        --warning: #faad14;
+        --warning-light: #fffbe6;
+        --dark: #333;
+        --medium: #777;
+        --light: #f8f9fa;
+        --white: #fff;
+        --radius: 12px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background-color: #f6f8fc;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 40px 50px;
+        background-color: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+      }
+
+      .logo {
+        font-size: 38px;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+
+      .title {
+        color: var(--dark);
+        margin-bottom: 15px;
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        color: var(--medium);
+        font-weight: 500;
+        font-size: 22px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Improved Navigation */
+      .nav-container {
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+        background-color: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 15px;
+        margin-bottom: 40px;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .nav-button {
+        padding: 15px 24px;
+        background-color: var(--white);
+        border: none;
+        border-radius: 8px;
+        color: var(--dark);
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-button::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        transition: var(--transition);
+      }
+
+      .nav-button:hover {
+        color: var(--primary);
+        background-color: var(--primary-light);
+      }
+
+      .nav-button.active {
+        color: var(--primary);
+        background-color: var(--primary-light);
+      }
+
+      .nav-button.active::after {
+        width: 80%;
+      }
+
+      /* Sections */
+      .section {
+        display: none;
+        background-color: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 40px;
+        margin-bottom: 30px;
+      }
+
+      .section.active {
+        display: block;
+      }
+
+      .section-title {
+        color: var(--primary);
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 15px;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        border-radius: 2px;
+      }
+    </style>
+    <style>
+      /* Hero section styles */
+      .hero {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        margin-bottom: 50px;
+        padding: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-light) 0%,
+          var(--purple-light) 100%
+        );
+        border-radius: var(--radius);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(89, 37, 220, 0.1) 0%,
+          rgba(89, 37, 220, 0) 70%
+        );
+        top: -100px;
+        right: -100px;
+        border-radius: 50%;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(114, 46, 209, 0.1) 0%,
+          rgba(114, 46, 209, 0) 70%
+        );
+        bottom: -50px;
+        left: -50px;
+        border-radius: 50%;
+      }
+
+      .hero-content {
+        flex: 2;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-title {
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .hero-subtitle {
+        font-size: 20px;
+        margin-bottom: 25px;
+        color: var(--dark);
+        font-weight: 500;
+      }
+
+      .hero-image {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Card styles */
+      .card {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border-left: 5px solid var(--primary);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-title {
+        font-size: 22px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .card p {
+        margin-bottom: 20px;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      /* Comparison styles */
+      .comparison {
+        display: flex;
+        margin: 40px 0;
+        gap: 30px;
+      }
+
+      .comparison-column {
+        flex: 1;
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+
+      .comparison-column:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .comparison-column.highlight {
+        background: linear-gradient(
+          135deg,
+          var(--primary-light) 0%,
+          var(--purple-light) 100%
+        );
+        border: 2px solid var(--primary);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .comparison-column.highlight::before {
+        content: "COLECTA AI";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--primary);
+        color: white;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 4px;
+      }
+
+      .comparison-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        font-weight: 600;
+        text-align: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .comparison-list {
+        list-style-type: none;
+      }
+
+      .comparison-list li {
+        margin-bottom: 15px;
+        padding-left: 30px;
+        position: relative;
+        font-size: 16px;
+      }
+
+      .comparison-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          flex-direction: column;
+          padding: 30px;
+        }
+
+        .comparison {
+          flex-direction: column;
+        }
+      }
+    </style>
+    <style>
+      /* Features styles */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+      }
+
+      .feature-card {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-card:hover::before {
+        opacity: 1;
+      }
+
+      .feature-icon {
+        font-size: 50px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: var(--primary-light);
+        margin: 0 auto 25px;
+      }
+
+      .feature-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: var(--primary);
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .feature-card p {
+        margin-bottom: 20px;
+        font-size: 16px;
+        line-height: 1.7;
+        flex-grow: 1;
+      }
+
+      .feature-list {
+        margin-top: 15px;
+      }
+
+      .feature-list li {
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+        font-size: 15px;
+      }
+
+      .feature-list li::before {
+        content: "▹";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+      }
+
+      /* MVP Scope Table */
+      .table-container {
+        margin: 30px 0;
+        overflow-x: auto;
+        border-radius: var(--radius);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .feature-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .feature-table th,
+      .feature-table td {
+        padding: 15px 20px;
+        text-align: left;
+      }
+
+      .feature-table th {
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        color: var(--white);
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      .feature-table tr:nth-child(even) {
+        background-color: var(--light);
+      }
+
+      .feature-table tr:hover {
+        background-color: var(--primary-light);
+      }
+
+      .feature-table td {
+        border-bottom: 1px solid #eee;
+        font-size: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .feature-table th,
+        .feature-table td {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+      }
+    </style>
+
+    <style>
+      /* Timeline styles */
+      .timeline {
+        position: relative;
+        margin: 50px 0;
+        padding-bottom: 30px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: calc(100% - 50px);
+        background: linear-gradient(
+          to bottom,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        border-radius: 2px;
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+        width: 45%;
+      }
+
+      .timeline-item:nth-child(odd) {
+        margin-left: auto;
+        padding-left: 40px;
+      }
+
+      .timeline-item:nth-child(even) {
+        margin-right: auto;
+        padding-right: 40px;
+        text-align: right;
+      }
+
+      .timeline-content {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .timeline-content::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        width: 20px;
+        height: 20px;
+        background-color: var(--white);
+        transform: rotate(45deg);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content::before {
+        left: -10px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content::before {
+        right: -10px;
+      }
+
+      .timeline-date {
+        position: absolute;
+        top: 15px;
+        width: 120px;
+        padding: 8px 16px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        color: var(--white);
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-date {
+        left: -140px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-date {
+        right: -140px;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        top: 18px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        border: 5px solid var(--white);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-dot {
+        left: -10px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-dot {
+        right: -10px;
+      }
+
+      .timeline-title {
+        margin-bottom: 15px;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 20px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-title {
+        text-align: right;
+      }
+
+      .timeline-list {
+        text-align: left;
+        margin-top: 15px;
+      }
+
+      .timeline-list li {
+        margin-bottom: 8px;
+        padding-left: 25px;
+        position: relative;
+        font-size: 15px;
+      }
+
+      .timeline-list li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+      }
+
+      .timeline-item:nth-child(even) .timeline-list li {
+        padding-left: 0;
+        padding-right: 25px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-list li::before {
+        content: "";
+      }
+
+      .timeline-item:nth-child(even) .timeline-list li::after {
+        content: "←";
+        position: absolute;
+        right: 0;
+        color: var(--primary);
+      }
+
+      /* Technical approach */
+      .approach-card {
+        background-color: var(--primary-light);
+        border-radius: var(--radius);
+        padding: 30px;
+        margin: 40px 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-left: 5px solid var(--primary);
+      }
+
+      .approach-title {
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+
+      .approach-list {
+        list-style-type: none;
+        counter-reset: item;
+      }
+
+      .approach-list li {
+        margin-bottom: 15px;
+        padding-left: 45px;
+        position: relative;
+        font-size: 16px;
+      }
+
+      .approach-list li::before {
+        counter-increment: item;
+        content: counter(item);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      @media (max-width: 992px) {
+        .timeline::before {
+          left: 20px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          padding-left: 60px;
+          padding-right: 0;
+          text-align: left;
+          margin-left: 0;
+          margin-right: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+          padding-left: 60px;
+          padding-right: 0;
+          text-align: left;
+        }
+
+        .timeline-dot {
+          left: 5px !important;
+          right: auto !important;
+        }
+
+        .timeline-date {
+          position: relative;
+          left: auto !important;
+          right: auto !important;
+          top: auto;
+          display: inline-block;
+          margin-bottom: 15px;
+        }
+
+        .timeline-content::before {
+          display: none;
+        }
+
+        .timeline-item:nth-child(even) .timeline-title {
+          text-align: left;
+        }
+
+        .timeline-item:nth-child(even) .timeline-list li {
+          padding-left: 25px;
+          padding-right: 0;
+        }
+
+        .timeline-item:nth-child(even) .timeline-list li::before {
+          content: "→";
+        }
+
+        .timeline-item:nth-child(even) .timeline-list li::after {
+          content: "";
+        }
+      }
+    </style>
+
+    <style>
+      /* Pricing cards styles */
+      .pricing-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .pricing-card {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 40px 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border-top: 5px solid transparent;
+      }
+
+      .pricing-card.popular {
+        border-top: 5px solid var(--primary);
+        transform: scale(1.03);
+        z-index: 1;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .pricing-card.popular::before {
+        content: "MOST POPULAR";
+        position: absolute;
+        top: 15px;
+        right: -35px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        color: white;
+        padding: 5px 40px;
+        font-size: 12px;
+        transform: rotate(45deg);
+        font-weight: 600;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .pricing-card.popular:hover {
+        transform: scale(1.05) translateY(-5px);
+      }
+
+      .pricing-header {
+        text-align: center;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 25px;
+      }
+
+      .pricing-title {
+        font-size: 22px;
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .pricing-price {
+        font-size: 44px;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 5px;
+      }
+
+      .pricing-period {
+        font-size: 16px;
+        color: var(--medium);
+      }
+
+      .pricing-description {
+        text-align: center;
+        color: var(--medium);
+        margin-bottom: 25px;
+        font-size: 15px;
+      }
+
+      .pricing-features {
+        margin-bottom: 25px;
+        flex-grow: 1;
+      }
+
+      .pricing-features li {
+        margin-bottom: 12px;
+        padding-left: 30px;
+        position: relative;
+        font-size: 15px;
+      }
+
+      .pricing-features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      .pricing-cta {
+        display: block;
+        text-align: center;
+        padding: 15px 20px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        color: white;
+        border-radius: var(--radius);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: var(--transition);
+        box-shadow: 0 5px 15px rgba(89, 37, 220, 0.2);
+        margin-top: auto;
+      }
+
+      .pricing-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(89, 37, 220, 0.3);
+      }
+
+      .pricing-cta.secondary {
+        background: none;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        box-shadow: none;
+      }
+
+      .pricing-cta.secondary:hover {
+        background-color: var(--primary-light);
+      }
+
+      /* Revenue Model Styles */
+      .revenue-section {
+        margin: 50px 0;
+      }
+
+      .revenue-card {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+
+      .revenue-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .revenue-title {
+        font-size: 22px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .revenue-description {
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .revenue-chart {
+        display: flex;
+        justify-content: space-between;
+        margin: 40px 0;
+        position: relative;
+        padding-top: 40px;
+      }
+
+      .revenue-chart::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        z-index: 0;
+      }
+
+      .revenue-stage {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        padding: 0 15px;
+      }
+
+      .revenue-point {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--primary);
+        margin: 0 auto 20px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(89, 37, 220, 0.2);
+      }
+
+      .revenue-point::before {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 3px solid var(--primary);
+        top: -15px;
+        left: -15px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      .revenue-stage:nth-child(2) .revenue-point {
+        background: var(--success);
+      }
+
+      .revenue-stage:nth-child(2) .revenue-point::before {
+        border-color: var(--success);
+      }
+
+      .revenue-stage:nth-child(3) .revenue-point {
+        background: var(--warning);
+      }
+
+      .revenue-stage:nth-child(3) .revenue-point::before {
+        border-color: var(--warning);
+      }
+
+      .revenue-stage:nth-child(4) .revenue-point {
+        background: var(--secondary);
+      }
+
+      .revenue-stage:nth-child(4) .revenue-point::before {
+        border-color: var(--secondary);
+      }
+
+      .revenue-milestone {
+        background-color: var(--light);
+        padding: 12px 15px;
+        border-radius: var(--radius);
+        font-weight: 600;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .revenue-value {
+        font-size: 22px;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+
+      .revenue-stage:nth-child(2) .revenue-value {
+        background: linear-gradient(90deg, #40a9ff 0%, #52c41a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .revenue-stage:nth-child(3) .revenue-value {
+        background: linear-gradient(90deg, #faad14 0%, #fa8c16 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .revenue-stage:nth-child(4) .revenue-value {
+        background: linear-gradient(90deg, #1890ff 0%, #096dd9 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .revenue-text {
+        font-size: 14px;
+        color: var(--medium);
+      }
+
+      .revenue-list {
+        margin-top: 20px;
+      }
+
+      .revenue-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .revenue-list li:last-child {
+        border-bottom: none;
+      }
+
+      .revenue-label {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .revenue-amount {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      @media (max-width: 992px) {
+        .revenue-chart {
+          flex-direction: column;
+          gap: 40px;
+          margin-bottom: 0;
+        }
+
+        .revenue-chart::before {
+          display: none;
+        }
+
+        .revenue-point {
+          margin-top: 20px;
+        }
+      }
+    </style>
+
+    <style>
+      /* Pitch styles */
+      .pitch-card {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+
+      .pitch-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .pitch-highlight {
+        background-color: var(--primary-light);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border-left: 5px solid var(--primary);
+      }
+
+      .pitch-quote {
+        font-size: 20px;
+        font-style: italic;
+        line-height: 1.6;
+        color: var(--primary);
+        font-weight: 500;
+      }
+
+      /* Comparison styles improved */
+      .pitch-comparison {
+        display: flex;
+        margin: 30px 0;
+        gap: 30px;
+      }
+
+      .pitch-column {
+        flex: 1;
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+
+      .pitch-column:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .pitch-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--primary);
+        font-weight: 600;
+        text-align: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .pitch-subtitle {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 20px 0 10px;
+        color: var(--dark);
+      }
+
+      /* Table styles */
+      .traction-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .traction-table th,
+      .traction-table td {
+        padding: 15px 20px;
+        text-align: left;
+      }
+
+      .traction-table th {
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        color: var(--white);
+        font-weight: 600;
+      }
+
+      .traction-table tr:nth-child(even) {
+        background-color: var(--light);
+      }
+
+      .traction-table tr:hover {
+        background-color: var(--primary-light);
+      }
+
+      /* CTA Section improved */
+      .cta {
+        background: linear-gradient(
+          135deg,
+          var(--primary-light) 0%,
+          var(--purple-light) 100%
+        );
+        padding: 50px;
+        border-radius: var(--radius);
+        text-align: center;
+        margin: 40px 0;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(89, 37, 220, 0.1);
+      }
+
+      .cta::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(89, 37, 220, 0.1) 0%,
+          rgba(89, 37, 220, 0) 70%
+        );
+        top: -100px;
+        right: -100px;
+        border-radius: 50%;
+      }
+
+      .cta::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(114, 46, 209, 0.1) 0%,
+          rgba(114, 46, 209, 0) 70%
+        );
+        bottom: -50px;
+        left: -50px;
+        border-radius: 50%;
+      }
+
+      .cta-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: var(--primary);
+        font-weight: 700;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-subtitle {
+        font-size: 18px;
+        margin-bottom: 40px;
+        color: var(--dark);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 15px 40px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--purple) 100%
+        );
+        color: white;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 18px;
+        transition: var(--transition);
+        box-shadow: 0 5px 15px rgba(89, 37, 220, 0.2);
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(89, 37, 220, 0.3);
+      }
+
+      /* Modal styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        background-color: var(--white);
+        border-radius: var(--radius);
+        padding: 40px;
+        width: 90%;
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(20px);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .modal-overlay.active .modal {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .modal-title {
+        font-size: 28px;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 30px;
+        cursor: pointer;
+        color: var(--medium);
+        transition: var(--transition);
+      }
+
+      .modal-close:hover {
+        color: var(--primary);
+      }
+
+      .pitch-deck {
+        line-height: 1.6;
+      }
+
+      .pitch-slide {
+        margin-bottom: 60px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 50px;
+      }
+
+      .pitch-slide:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .pitch-slide-title {
+        font-size: 24px;
+        color: var(--primary);
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .pitch-content {
+        margin-bottom: 30px;
+        font-size: 16px;
+      }
+
+      .pitch-image {
+        background: linear-gradient(
+          135deg,
+          var(--primary-light) 0%,
+          var(--purple-light) 100%
+        );
+        height: 350px;
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+        color: var(--primary);
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      @media (max-width: 768px) {
+        .pitch-comparison {
+          flex-direction: column;
+        }
+
+        .cta {
+          padding: 30px;
+        }
+
+        .modal {
+          padding: 25px;
+        }
+
+        .pitch-slide {
+          margin-bottom: 40px;
+          padding-bottom: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="logo">Colecta AI</div>
+        <h1 class="title">Personalized AI Agents for Creators & Brands</h1>
+        <h2 class="subtitle">
+          Revolutionizing collaborations with dedicated AI managers that work
+          24/7 on your behalf
+        </h2>
+      </header>
+
+      <div class="nav-container">
+        <nav class="nav">
+          <button class="nav-button active" data-section="concept">
+            Core Concept
+          </button>
+          <button class="nav-button" data-section="features">
+            Key Features
+          </button>
+          <button class="nav-button" data-section="implementation">
+            Implementation
+          </button>
+          <button class="nav-button" data-section="pricing">
+            Pricing & Revenue
+          </button>
+          <button class="nav-button" data-section="yc-pitch">YC Pitch</button>
+          <button class="nav-button" data-section="demo">
+            Interactive Demo
+          </button>
+          <button class="nav-button" data-section="tracking">
+            Implementation Tracker
+          </button>
+        </nav>
+      </div>
+      <!-- Concept Section -->
+      <section id="concept" class="section active">
+        <h2 class="section-title">Redefining Creator-Brand Collaboration</h2>
+
+        <div class="hero">
+          <div class="hero-content">
+            <h3 class="hero-title">Meet Your AI Manager</h3>
+            <p class="hero-subtitle">
+              Forget marketplaces. Forget manual matching. Colecta AI gives
+              every creator and brand their own dedicated AI agent that
+              understands their unique needs and works proactively on their
+              behalf.
+            </p>
+            <p>
+              Our personalized AI agents serve as dedicated managers, learning
+              your style, preferences, and goals to find perfect collaborations
+              while handling negotiations, scheduling, and performance tracking.
+            </p>
+          </div>
+          <div class="hero-image">
+            <div
+              style="
+                height: 260px;
+                width: 260px;
+                background: linear-gradient(
+                  135deg,
+                  var(--primary-light) 0%,
+                  var(--purple-light) 100%
+                );
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                position: relative;
+                box-shadow: 0 10px 30px rgba(89, 37, 220, 0.2);
+              "
+            >
+              <div style="font-size: 100px">👤</div>
+              <div
+                style="
+                  position: absolute;
+                  top: 20px;
+                  right: 20px;
+                  height: 90px;
+                  width: 90px;
+                  background-color: var(--primary);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 40px;
+                  box-shadow: 0 5px 15px rgba(89, 37, 220, 0.3);
+                "
+              >
+                🤖
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">The Problem with Traditional Marketplaces</h3>
+          <p>
+            Current creator marketplaces are passive listing platforms requiring
+            hours of manual work to find the right match. Brands struggle to
+            identify creators who truly align with their values, while creators
+            waste time pitching to misaligned opportunities.
+          </p>
+          <p>
+            The result? Inefficient matches, time wasted, and collaborations
+            that don't deliver optimal value for either party.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Our Solution: Personalized AI Agents</h3>
+          <p>
+            Colecta AI transforms this model by providing each user with a
+            personalized AI agent that serves as their dedicated manager. These
+            agents learn about their users through initial onboarding and
+            continuous feedback, becoming progressively more effective at
+            matching, negotiating, and managing collaborations.
+          </p>
+          <p>
+            Rather than browsing listings, users simply respond to highly
+            curated opportunities presented by their AI manager, dramatically
+            reducing time investment while improving match quality.
+          </p>
+        </div>
+
+        <div class="comparison">
+          <div class="comparison-column">
+            <h4 class="comparison-title">Traditional Marketplaces</h4>
+            <ul class="comparison-list">
+              <li>Passive listings requiring manual search</li>
+              <li>Surface-level matching based on metrics</li>
+              <li>One-size-fits-all platform experience</li>
+              <li>Users do most of the work</li>
+              <li>Transaction-focused relationship</li>
+              <li>Limited contextual understanding</li>
+              <li>Broad matching with many misalignments</li>
+            </ul>
+          </div>
+          <div class="comparison-column highlight">
+            <h4 class="comparison-title">Colecta AI Agents</h4>
+            <ul class="comparison-list">
+              <li>Proactive opportunity identification</li>
+              <li>Deep matching based on multiple dimensions</li>
+              <li>Personalized experience that learns from you</li>
+              <li>AI does the heavy lifting</li>
+              <li>Ongoing partnership model</li>
+              <li>Rich contextual knowledge of your brand</li>
+              <li>Precise matching with high alignment rates</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Market Differentiation</h3>
+          <p>
+            While other platforms may incorporate basic AI matching, Colecta AI
+            is fundamentally different in its approach. We're not a marketplace
+            with AI features - we're an AI-powered agency model where each user
+            gets their own dedicated agent working for them.
+          </p>
+          <p>
+            This shifts the paradigm from "search and connect" to "delegate and
+            approve," creating a higher-value service that can command premium
+            pricing and build stronger user loyalty.
+          </p>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="features" class="section">
+        <h2 class="section-title">
+          Key Features of Our Personalized AI Agents
+        </h2>
+
+        <div class="features">
+          <div class="feature-card">
+            <div class="feature-icon">👤</div>
+            <h3 class="feature-title">Creator AI Manager</h3>
+            <p>
+              A personalized AI agent that learns a creator's content style,
+              audience demographics, brand values, and past collaboration
+              preferences.
+            </p>
+            <ul class="feature-list">
+              <li>Proactive opportunity identification</li>
+              <li>Smart pricing recommendations</li>
+              <li>Negotiation assistance</li>
+              <li>Scheduling and deadline management</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🏢</div>
+            <h3 class="feature-title">Brand AI Manager</h3>
+            <p>
+              A dedicated AI agent that understands a brand's identity,
+              guidelines, target audience, and campaign objectives.
+            </p>
+            <ul class="feature-list">
+              <li>Creator matching based on brand alignment</li>
+              <li>ROI prediction for different collaborations</li>
+              <li>Campaign brief assistance</li>
+              <li>Performance tracking against goals</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🤝</div>
+            <h3 class="feature-title">Smart Matching Engine</h3>
+            <p>
+              Our proprietary AI matching algorithm that goes beyond surface
+              metrics to identify truly compatible collaborations.
+            </p>
+            <ul class="feature-list">
+              <li>Content aesthetic alignment</li>
+              <li>Brand value compatibility</li>
+              <li>Audience engagement patterns</li>
+              <li>Communication style similarity</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Performance Analytics</h3>
+            <p>
+              Comprehensive analytics that track collaboration performance and
+              feed data back to AI agents for continuous improvement.
+            </p>
+            <ul class="feature-list">
+              <li>Campaign performance tracking</li>
+              <li>Engagement analysis</li>
+              <li>ROI calculation</li>
+              <li>Improvement recommendations</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">💬</div>
+            <h3 class="feature-title">Guided Onboarding</h3>
+            <p>
+              A conversational onboarding process that helps the AI agent
+              understand user preferences and needs.
+            </p>
+            <ul class="feature-list">
+              <li>Interactive questionnaire</li>
+              <li>Portfolio analysis</li>
+              <li>Brand guideline processing</li>
+              <li>Preference learning</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3 class="feature-title">Conversation Interface</h3>
+            <p>
+              A natural chat interface for interacting with AI agents, making
+              the experience feel like working with a human manager.
+            </p>
+            <ul class="feature-list">
+              <li>Natural language interaction</li>
+              <li>Context-aware responses</li>
+              <li>Multi-step workflows</li>
+              <li>Rich media support</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">MVP Feature Scope</h3>
+          <p>
+            For our initial 45-day MVP, we'll focus on a core set of features
+            that demonstrate the value of personalized AI agents while being
+            technically feasible:
+          </p>
+
+          <div class="table-container">
+            <table class="feature-table">
+              <tr>
+                <th>Feature</th>
+                <th>MVP Scope</th>
+                <th>Future Development</th>
+              </tr>
+              <tr>
+                <td>Creator Profiles</td>
+                <td>
+                  Basic profile setup with portfolio, metrics, and preferences
+                </td>
+                <td>Automatic content analysis and style detection</td>
+              </tr>
+              <tr>
+                <td>Brand Profiles</td>
+                <td>Campaign objectives, brand guidelines, target audience</td>
+                <td>Automatic brand voice analysis and competitor analysis</td>
+              </tr>
+              <tr>
+                <td>AI Matching</td>
+                <td>Initial match algorithm with 3 key dimensions</td>
+                <td>
+                  Advanced multi-dimensional matching with performance learning
+                </td>
+              </tr>
+              <tr>
+                <td>Agent Interface</td>
+                <td>Simple chat interface with guided workflows</td>
+                <td>
+                  Advanced conversational capabilities and initiative-taking
+                </td>
+              </tr>
+              <tr>
+                <td>Collaboration Management</td>
+                <td>Basic collaboration workflow and communication</td>
+                <td>Full project management with deadline tracking</td>
+              </tr>
+              <tr>
+                <td>Analytics</td>
+                <td>Simple performance metrics dashboard</td>
+                <td>Advanced analytics with predictive insights</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Implementation Plan Section -->
+      <section id="implementation" class="section">
+        <h2 class="section-title">45-Day Implementation Plan</h2>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-date">Days 1-5</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Technical Foundation</h3>
+              <p>
+                Set up the core architecture and select AI framework (likely
+                using OpenAI's API as foundation).
+              </p>
+              <ul class="timeline-list">
+                <li>Define system architecture</li>
+                <li>Set up development environment</li>
+                <li>Create database schema</li>
+                <li>Implement authentication system</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date">Days 6-15</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Core User Experience</h3>
+              <p>
+                Build the basic user interfaces and conversational onboarding
+                flows.
+              </p>
+              <ul class="timeline-list">
+                <li>Design creator profile setup flow</li>
+                <li>Design brand profile setup flow</li>
+                <li>Implement chat interface</li>
+                <li>Create guided onboarding conversation</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date">Days 16-25</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">AI Agent Development</h3>
+              <p>
+                Develop the core AI agent functionality for both creators and
+                brands.
+              </p>
+              <ul class="timeline-list">
+                <li>Implement creator agent primary functions</li>
+                <li>Implement brand agent primary functions</li>
+                <li>Develop matching algorithm</li>
+                <li>Create agent personalization system</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date">Days 26-35</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Collaboration Workflow</h3>
+              <p>
+                Build the end-to-end collaboration process from matching to
+                completion.
+              </p>
+              <ul class="timeline-list">
+                <li>Implement opportunity presentation</li>
+                <li>Create negotiation workflow</li>
+                <li>Build collaboration dashboard</li>
+                <li>Develop basic analytics</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date">Days 36-40</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Testing & Refinement</h3>
+              <p>Test with real users and refine based on feedback.</p>
+              <ul class="timeline-list">
+                <li>Conduct internal testing</li>
+                <li>Fix critical bugs</li>
+                <li>Refine AI responses</li>
+                <li>Optimize matching algorithm</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date">Days 41-45</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Launch Preparation</h3>
+              <p>Finalize the MVP and prepare for launch.</p>
+              <ul class="timeline-list">
+                <li>Performance optimization</li>
+                <li>Documentation completion</li>
+                <li>Prepare marketing materials</li>
+                <li>Launch MVP</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="approach-card">
+          <h3 class="approach-title">Technical Implementation Approach</h3>
+          <p>
+            Our MVP will leverage existing AI technologies to accelerate
+            development while focusing our efforts on the unique aspects of our
+            platform:
+          </p>
+
+          <ol class="approach-list">
+            <li>
+              <strong>Foundation Model:</strong> We'll use OpenAI's GPT-4 API as
+              the foundation for our AI agents, saving significant development
+              time while providing sophisticated language capabilities.
+            </li>
+            <li>
+              <strong>Agent Personalization:</strong> We'll develop a
+              proprietary system to create personalized context for each agent,
+              allowing them to maintain user-specific knowledge.
+            </li>
+            <li>
+              <strong>Matching Algorithm:</strong> We'll build a custom
+              algorithm that analyzes multiple dimensions of compatibility,
+              starting with the three most impactful factors.
+            </li>
+            <li>
+              <strong>Data Collection:</strong> We'll implement robust feedback
+              mechanisms to continuously improve agent performance.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Pricing & Revenue Section -->
+      <section id="pricing" class="section">
+        <h2 class="section-title">Pricing & Revenue Strategy</h2>
+
+        <div class="card">
+          <h3 class="card-title">Our Pricing Philosophy</h3>
+          <p>
+            Our personalized AI agent model supports a premium pricing strategy
+            that reflects the high value we provide. We're not just another
+            creator marketplace — we're providing AI managers that save time,
+            improve match quality, and increase ROI for both creators and
+            brands.
+          </p>
+          <p>
+            This value-based pricing approach allows us to generate both
+            immediate transaction revenue and sustainable subscription income
+            while offering a compelling value proposition to users.
+          </p>
+        </div>
+
+        <h3 class="section-title" style="margin-top: 40px">Pricing Tiers</h3>
+
+        <div class="pricing-container">
+          <!-- Creator Pricing -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 class="pricing-title">Creator Basic</h3>
+              <div class="pricing-price">Free</div>
+              <div class="pricing-period">+ 15% commission</div>
+            </div>
+            <p class="pricing-description">
+              Perfect for creators starting their collaboration journey
+            </p>
+            <ul class="pricing-features">
+              <li>Basic AI agent functionality</li>
+              <li>Up to 3 active collaborations</li>
+              <li>Standard matching algorithm</li>
+              <li>Basic analytics dashboard</li>
+              <li>Email support</li>
+            </ul>
+            <a href="#" class="pricing-cta secondary">Get Started</a>
+          </div>
+
+          <div class="pricing-card popular">
+            <div class="pricing-header">
+              <h3 class="pricing-title">Creator Pro</h3>
+              <div class="pricing-price">$29</div>
+              <div class="pricing-period">per month + 10% commission</div>
+            </div>
+            <p class="pricing-description">
+              For creators serious about brand partnerships
+            </p>
+            <ul class="pricing-features">
+              <li>Advanced AI agent capabilities</li>
+              <li>Unlimited active collaborations</li>
+              <li>Priority matching algorithm</li>
+              <li>Comprehensive analytics suite</li>
+              <li>Negotiation assistance</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="#" class="pricing-cta">Start Free Trial</a>
+          </div>
+
+          <!-- Brand Pricing -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 class="pricing-title">Brand Standard</h3>
+              <div class="pricing-price">$99</div>
+              <div class="pricing-period">per month + 10% commission</div>
+            </div>
+            <p class="pricing-description">
+              For brands starting with creator marketing
+            </p>
+            <ul class="pricing-features">
+              <li>Dedicated brand AI manager</li>
+              <li>Up to 5 active campaigns</li>
+              <li>Creator recommendation engine</li>
+              <li>Basic ROI tracking</li>
+              <li>Email and chat support</li>
+            </ul>
+            <a href="#" class="pricing-cta secondary">Get Started</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 class="pricing-title">Brand Premium</h3>
+              <div class="pricing-price">$299</div>
+              <div class="pricing-period">per month + 8% commission</div>
+            </div>
+            <p class="pricing-description">
+              For scaling creator marketing programs
+            </p>
+            <ul class="pricing-features">
+              <li>Advanced brand AI manager</li>
+              <li>Unlimited active campaigns</li>
+              <li>Premium creator matching</li>
+              <li>Advanced analytics & reporting</li>
+              <li>Campaign optimization insights</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="#" class="pricing-cta">Start Free Trial</a>
+          </div>
+        </div>
+
+        <div class="revenue-section">
+          <div class="revenue-card">
+            <h3 class="revenue-title">Revenue Growth Roadmap</h3>
+            <p class="revenue-description">
+              Our multi-stream revenue model is designed to scale progressively
+              as we grow our user base and enhance our AI capabilities.
+            </p>
+
+            <div class="revenue-chart">
+              <div class="revenue-stage">
+                <div class="revenue-milestone">Launch Phase</div>
+                <div class="revenue-point"></div>
+                <div class="revenue-value">$10-20K</div>
+                <div class="revenue-text">Monthly Revenue</div>
+                <div class="revenue-text">Months 1-3</div>
+              </div>
+
+              <div class="revenue-stage">
+                <div class="revenue-milestone">Growth Phase</div>
+                <div class="revenue-point"></div>
+                <div class="revenue-value">$50-100K</div>
+                <div class="revenue-text">Monthly Revenue</div>
+                <div class="revenue-text">Months 4-6</div>
+              </div>
+
+              <div class="revenue-stage">
+                <div class="revenue-milestone">Expansion Phase</div>
+                <div class="revenue-point"></div>
+                <div class="revenue-value">$250-500K</div>
+                <div class="revenue-text">Monthly Revenue</div>
+                <div class="revenue-text">Months 7-12</div>
+              </div>
+
+              <div class="revenue-stage">
+                <div class="revenue-milestone">Scale Phase</div>
+                <div class="revenue-point"></div>
+                <div class="revenue-value">$1M+</div>
+                <div class="revenue-text">Monthly Revenue</div>
+                <div class="revenue-text">Year 2</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="revenue-card">
+            <h3 class="card-title">Multiple Revenue Streams</h3>
+            <p>
+              Our business model combines several complementary revenue streams
+              that reinforce each other:
+            </p>
+
+            <ul class="revenue-list">
+              <li>
+                <span class="revenue-label">Transaction Fees</span>
+                <span class="revenue-amount">8-15% per collaboration</span>
+              </li>
+              <li>
+                <span class="revenue-label">Creator Subscriptions</span>
+                <span class="revenue-amount">$0-29 per month</span>
+              </li>
+              <li>
+                <span class="revenue-label">Brand Subscriptions</span>
+                <span class="revenue-amount">$99-499 per month</span>
+              </li>
+              <li>
+                <span class="revenue-label">Advanced AI Features</span>
+                <span class="revenue-amount">$10-50 per add-on</span>
+              </li>
+              <li>
+                <span class="revenue-label">Enterprise Solutions</span>
+                <span class="revenue-amount">$1,000+ per month</span>
+              </li>
+            </ul>
+
+            <p style="margin-top: 20px">
+              This diversified approach allows us to generate immediate revenue
+              while building a sustainable recurring revenue base. As our AI
+              capabilities advance, we'll introduce premium features that
+              provide even more value to users.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Y Combinator Pitch Section -->
+      <section id="yc-pitch" class="section">
+        <h2 class="section-title">Y Combinator Pitch Strategy</h2>
+
+        <div class="pitch-card">
+          <h3 class="card-title">Pitch Narrative</h3>
+          <p>
+            Our Y Combinator pitch will focus on how Colecta AI is reimagining
+            the creator economy by shifting from passive marketplaces to
+            AI-powered personalized agents:
+          </p>
+
+          <div class="pitch-highlight">
+            <p class="pitch-quote">
+              "Colecta AI gives every creator and brand their own AI manager
+              that works 24/7 to find perfect collaborations, manage
+              negotiations, and optimize results. We're not building another
+              marketplace — we're building the first AI agency for the creator
+              economy."
+            </p>
+          </div>
+
+          <p>Key elements to emphasize:</p>
+          <ul style="margin-left: 25px; margin-top: 15px">
+            <li>
+              <strong>Paradigm Shift:</strong> Moving from "search and connect"
+              to "delegate and approve"
+            </li>
+            <li>
+              <strong>True AI Innovation:</strong> Not just using AI as a
+              feature but as the core product experience
+            </li>
+            <li>
+              <strong>Scalable Personalization:</strong> Providing white-glove
+              service at scale through AI
+            </li>
+            <li>
+              <strong>Strong Network Effects:</strong> Agents improve with more
+              data across the platform
+            </li>
+            <li>
+              <strong>High Margins:</strong> Software economics with premium
+              agency-like pricing
+            </li>
+          </ul>
+        </div>
+
+        <div class="pitch-comparison">
+          <div class="pitch-column">
+            <h4 class="pitch-title">Addressing YC's Key Questions</h4>
+            <div style="margin-top: 15px">
+              <p class="pitch-subtitle">What problem are you solving?</p>
+              <p>
+                The inefficiency and poor match quality in creator-brand
+                collaborations, which wastes time and reduces ROI for both
+                parties.
+              </p>
+
+              <p class="pitch-subtitle">How big is the market?</p>
+              <p>
+                The creator economy is projected to reach $480B by 2027, with
+                creator marketing representing over $25B annually.
+              </p>
+
+              <p class="pitch-subtitle">What's your unique insight?</p>
+              <p>
+                That personalized AI agents can replace human managers for most
+                collaboration tasks, providing agency-quality service at
+                software economics.
+              </p>
+
+              <p class="pitch-subtitle">How will you make money?</p>
+              <p>
+                Multiple revenue streams: subscription fees from both creators
+                and brands, transaction commissions, and premium AI agent
+                features.
+              </p>
+            </div>
+          </div>
+          <div class="pitch-column">
+            <h4 class="pitch-title">Differentiation for YC</h4>
+            <div style="margin-top: 15px">
+              <p class="pitch-subtitle">Technical Moat</p>
+              <p>
+                Our personalization system creates unique AI agents that learn
+                and improve over time, building user-specific knowledge that
+                creates switching costs.
+              </p>
+
+              <p class="pitch-subtitle">Business Model Innovation</p>
+              <p>
+                Combining marketplace dynamics with agency economics allows
+                premium pricing while maintaining marketplace scale.
+              </p>
+
+              <p class="pitch-subtitle">Execution Strategy</p>
+              <p>
+                Our focused MVP demonstrates the core value while setting up for
+                rapid iteration based on real-world usage data.
+              </p>
+
+              <p class="pitch-subtitle">Founder Advantage</p>
+              <p>
+                Deep industry experience in creator marketing and AI
+                development, with established relationships in the space.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pitch-card">
+          <h3 class="card-title">Traction Plan for YC</h3>
+          <p>Our plan to demonstrate traction by YC interview time:</p>
+
+          <table class="traction-table">
+            <tr>
+              <th>Metric</th>
+              <th>Target</th>
+              <th>Strategy</th>
+            </tr>
+            <tr>
+              <td>Creators Onboarded</td>
+              <td>100+</td>
+              <td>
+                Focused outreach to micro and mid-tier creators in select niches
+              </td>
+            </tr>
+            <tr>
+              <td>Brands Onboarded</td>
+              <td>20+</td>
+              <td>
+                Target D2C brands with existing creator marketing programs
+              </td>
+            </tr>
+            <tr>
+              <td>Successful Matches</td>
+              <td>10+</td>
+              <td>Highly curated initial matches with white-glove support</td>
+            </tr>
+            <tr>
+              <td>User Feedback</td>
+              <td>4.5+ rating</td>
+              <td>
+                Focus on delighting early users and collecting testimonials
+              </td>
+            </tr>
+            <tr>
+              <td>AI Agent Effectiveness</td>
+              <td>85%+ match acceptance</td>
+              <td>Tune matching algorithm based on initial feedback</td>
+            </tr>
+          </table>
+
+          <p style="margin-top: 20px">
+            This level of traction will demonstrate product-market fit and our
+            ability to execute on our vision, making us an attractive YC
+            candidate.
+          </p>
+        </div>
+
+        <div class="cta">
+          <h3 class="cta-title">Our Vision Beyond YC</h3>
+          <p class="cta-subtitle">
+            Colecta AI aims to become the operating system for the creator
+            economy, with personalized AI agents handling all aspects of
+            creator-brand relationships.
+          </p>
+          <a href="#" class="cta-button" id="view-pitch-deck"
+            >View Full Investor Deck</a
+          >
+        </div>
+
+        <!-- Modal for Full Pitch Deck -->
+        <div class="modal-overlay" id="pitch-deck-modal">
+          <div class="modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Colecta AI - Investor Pitch Deck</h3>
+              <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+
+            <div class="pitch-deck">
+              <!-- Slide 1 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">
+                  Problem: Creator-Brand Collaboration is Broken
+                </h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 20px">
+                      The Current Reality
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 80%;
+                        margin: 0 auto;
+                        text-align: center;
+                      "
+                    >
+                      <div>
+                        <div style="font-size: 36px">⏱️</div>
+                        <div>Hours wasted on<br />manual searching</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">❌</div>
+                        <div>Poor quality<br />matches</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">💸</div>
+                        <div>Low ROI on<br />collaborations</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p>
+                    <strong>For Creators:</strong> Finding brand collaborations
+                    is time-consuming and inefficient. Creators spend hours
+                    searching for opportunities, crafting pitches, and
+                    negotiating terms, often with poor results.
+                  </p>
+                  <p>
+                    <strong>For Brands:</strong> Identifying the right creators
+                    is like finding a needle in a haystack. Most platforms offer
+                    only surface-level metrics, leading to misaligned
+                    collaborations that don't deliver ROI.
+                  </p>
+                  <p>
+                    Existing marketplaces are passive platforms that require
+                    users to do most of the work, leading to inefficiency and
+                    frustration on both sides.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Slide 2 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">
+                  Solution: Personalized AI Agents
+                </h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 20px">
+                      AI Manager Working For You
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0 auto;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 150px;
+                          width: 150px;
+                          background-color: rgba(89, 37, 220, 0.2);
+                          border-radius: 50%;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          margin: 0 20px;
+                          position: relative;
+                        "
+                      >
+                        <div style="font-size: 70px">👤</div>
+                        <div
+                          style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            height: 60px;
+                            width: 60px;
+                            background-color: var(--primary);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            font-size: 30px;
+                          "
+                        >
+                          🤖
+                        </div>
+                      </div>
+                      <div style="font-size: 40px; margin: 0 30px">→</div>
+                      <div
+                        style="
+                          display: flex;
+                          flex-direction: column;
+                          align-items: center;
+                        "
+                      >
+                        <div style="font-size: 34px; margin-bottom: 10px">
+                          ✓ Perfect Matches
+                        </div>
+                        <div style="font-size: 34px; margin-bottom: 10px">
+                          ✓ Effortless Process
+                        </div>
+                        <div style="font-size: 34px">✓ Higher ROI</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p>
+                    Colecta AI gives every creator and brand their own dedicated
+                    AI agent that works as their personal manager.
+                  </p>
+                  <p>
+                    <strong>For Creators:</strong> Your AI agent learns your
+                    content style, audience demographics, and collaboration
+                    preferences, then proactively finds opportunities,
+                    negotiates terms, and handles scheduling.
+                  </p>
+                  <p>
+                    <strong>For Brands:</strong> Your AI agent understands your
+                    brand guidelines, campaign objectives, and target audience,
+                    then identifies perfect creator matches and predicts ROI
+                    before you spend a dollar.
+                  </p>
+                  <p>
+                    Instead of browsing through endless listings, users simply
+                    respond to highly curated opportunities presented by their
+                    AI manager.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Slide 3 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">Market Opportunity</h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 20px">
+                      Creator Economy Growth
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 80%;
+                        margin: 0 auto;
+                        text-align: center;
+                      "
+                    >
+                      <div>
+                        <div style="font-size: 36px">$480B</div>
+                        <div>Creator Economy<br />by 2027</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">$25B</div>
+                        <div>Creator Marketing<br />Annual Spend</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">50M+</div>
+                        <div>Creators<br />Worldwide</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p>
+                    The creator economy is experiencing explosive growth, with
+                    more brands allocating budget to creator collaborations and
+                    more individuals becoming creators.
+                  </p>
+                  <p><strong>Key Market Trends:</strong></p>
+                  <ul>
+                    <li>
+                      89% of marketers plan to increase or maintain creator
+                      marketing budgets
+                    </li>
+                    <li>
+                      Micro and mid-tier creators (10K-100K followers) deliver
+                      60% higher engagement rates than celebrities
+                    </li>
+                    <li>
+                      77% of brands cite "finding the right creators" as their
+                      biggest challenge
+                    </li>
+                    <li>
+                      73% of creators report spending 5+ hours weekly searching
+                      for brand opportunities
+                    </li>
+                  </ul>
+                  <p>
+                    This creates a massive opportunity for a platform that can
+                    efficiently connect the right creators with the right brands
+                    through AI.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Slide 4 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">Business Model</h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 20px">
+                      Multi-Stream Revenue Model
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 90%;
+                        margin: 0 auto;
+                        text-align: center;
+                      "
+                    >
+                      <div>
+                        <div style="font-size: 36px">💰</div>
+                        <div style="font-weight: 600">Transaction Fees</div>
+                        <div>8-15%</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">🔄</div>
+                        <div style="font-weight: 600">Subscriptions</div>
+                        <div>$29-499/mo</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">⚡</div>
+                        <div style="font-weight: 600">Premium Features</div>
+                        <div>$10-50/feature</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">🏢</div>
+                        <div style="font-weight: 600">Enterprise</div>
+                        <div>$1,000+/mo</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p>
+                    Our business model combines transaction fees with
+                    subscription revenue, allowing us to generate immediate
+                    income while building a sustainable recurring revenue base.
+                  </p>
+                  <p><strong>Revenue Streams:</strong></p>
+                  <ul>
+                    <li>
+                      <strong>Transaction Fees:</strong> 8-15% commission on
+                      successful collaborations (varies by subscription tier)
+                    </li>
+                    <li>
+                      <strong>Creator Subscriptions:</strong> Freemium model
+                      with paid tier ($29/month) offering advanced AI features
+                      and lower commissions
+                    </li>
+                    <li>
+                      <strong>Brand Subscriptions:</strong> Tiered pricing
+                      ($99-499/month) based on campaign volume and AI
+                      capabilities
+                    </li>
+                    <li>
+                      <strong>Premium AI Features:</strong> Add-on capabilities
+                      for specialized use cases ($10-50/month)
+                    </li>
+                    <li>
+                      <strong>Enterprise Solutions:</strong> Custom AI agent
+                      implementation for larger brands and agencies
+                      ($1,000+/month)
+                    </li>
+                  </ul>
+                  <p>
+                    Our premium pricing is justified by the significant time
+                    savings and improved collaboration quality provided by
+                    personalized AI agents.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Slide 5 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">Competitive Advantage</h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 20px">
+                      What Sets Us Apart
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 80%;
+                        margin: 0 auto;
+                        text-align: center;
+                      "
+                    >
+                      <div>
+                        <div style="font-size: 36px">🧠</div>
+                        <div>True AI<br />Intelligence</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">🧩</div>
+                        <div>Personalized<br />Experience</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">🔄</div>
+                        <div>Continuous<br />Learning</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 36px">💼</div>
+                        <div>Agency<br />Model</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p>
+                    Colecta AI has several key advantages that differentiate us
+                    from existing creator marketplaces:
+                  </p>
+                  <ol>
+                    <li>
+                      <strong>AI-First Approach:</strong> Our platform is built
+                      around AI agents as the core product, not just as an added
+                      feature.
+                    </li>
+                    <li>
+                      <strong>Personalization System:</strong> Our proprietary
+                      system creates truly personalized agents that learn and
+                      improve over time.
+                    </li>
+                    <li>
+                      <strong>Multi-Dimensional Matching:</strong> We analyze
+                      content style, brand values, audience engagement patterns,
+                      and communication styles for more accurate matches.
+                    </li>
+                    <li>
+                      <strong>Agency Model:</strong> We shift the paradigm from
+                      marketplace to agency, providing higher value and
+                      commanding premium pricing.
+                    </li>
+                    <li>
+                      <strong>Network Effects:</strong> Our AI agents improve as
+                      more users join the platform, creating a virtuous cycle of
+                      value creation.
+                    </li>
+                  </ol>
+                  <p>
+                    While competitors may try to add AI features to their
+                    existing marketplaces, our purpose-built platform enables a
+                    fundamentally different user experience.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Slide 6 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">Go-to-Market Strategy</h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 20px">
+                      Execution Roadmap
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 90%;
+                        margin: 0 auto;
+                        text-align: center;
+                      "
+                    >
+                      <div>
+                        <div
+                          style="
+                            width: 50px;
+                            height: 50px;
+                            background-color: var(--primary);
+                            color: white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                            margin: 0 auto 10px;
+                          "
+                        >
+                          1
+                        </div>
+                        <div style="font-weight: 600">MVP Launch</div>
+                        <div>Core AI Agent<br />Functionality</div>
+                      </div>
+                      <div>
+                        <div
+                          style="
+                            width: 50px;
+                            height: 50px;
+                            background-color: var(--primary);
+                            color: white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                            margin: 0 auto 10px;
+                          "
+                        >
+                          2
+                        </div>
+                        <div style="font-weight: 600">Initial Traction</div>
+                        <div>100+ Creators<br />20+ Brands</div>
+                      </div>
+                      <div>
+                        <div
+                          style="
+                            width: 50px;
+                            height: 50px;
+                            background-color: var(--primary);
+                            color: white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                            margin: 0 auto 10px;
+                          "
+                        >
+                          3
+                        </div>
+                        <div style="font-weight: 600">Growth Phase</div>
+                        <div>Enhanced AI<br />Capabilities</div>
+                      </div>
+                      <div>
+                        <div
+                          style="
+                            width: 50px;
+                            height: 50px;
+                            background-color: var(--primary);
+                            color: white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                            margin: 0 auto 10px;
+                          "
+                        >
+                          4
+                        </div>
+                        <div style="font-weight: 600">Scale Phase</div>
+                        <div>Expansion to<br />New Markets</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p><strong>Phase 1: MVP Launch (Days 1-45)</strong></p>
+                  <ul>
+                    <li>
+                      Build core AI agent functionality and matching algorithm
+                    </li>
+                    <li>
+                      Develop intuitive conversation interfaces for both
+                      creators and brands
+                    </li>
+                    <li>
+                      Implement basic collaboration workflow and analytics
+                    </li>
+                  </ul>
+
+                  <p><strong>Phase 2: Initial Traction (Months 2-3)</strong></p>
+                  <ul>
+                    <li>
+                      Targeted outreach to 100+ micro and mid-tier creators in
+                      select niches
+                    </li>
+                    <li>
+                      Focus on D2C brands with existing creator marketing
+                      programs
+                    </li>
+                    <li>
+                      High-touch onboarding for early users to ensure success
+                    </li>
+                    <li>Collect detailed feedback for AI improvement</li>
+                  </ul>
+
+                  <p><strong>Phase 3: Growth Phase (Months 4-6)</strong></p>
+                  <ul>
+                    <li>Enhance AI capabilities based on initial user data</li>
+                    <li>Implement subscription tiers and premium features</li>
+                    <li>
+                      Scale marketing efforts targeting adjacent creator niches
+                    </li>
+                    <li>Build partnerships with creator tools and platforms</li>
+                  </ul>
+
+                  <p><strong>Phase 4: Scale Phase (Months 7-12)</strong></p>
+                  <ul>
+                    <li>
+                      Expand to enterprise customers with dedicated solutions
+                    </li>
+                    <li>
+                      Enter international markets with localized AI agents
+                    </li>
+                    <li>
+                      Develop advanced analytics and reporting capabilities
+                    </li>
+                    <li>Explore additional creator economy verticals</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Slide 7 -->
+              <div class="pitch-slide">
+                <h3 class="pitch-slide-title">Team & Ask</h3>
+                <div class="pitch-image">
+                  <div style="text-align: center">
+                    <div style="font-size: 24px; margin-bottom: 30px">
+                      Founding Team & Investment
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 80%;
+                        margin: 0 auto;
+                        text-align: center;
+                      "
+                    >
+                      <div>
+                        <div
+                          style="
+                            width: 80px;
+                            height: 80px;
+                            background-color: var(--primary-light);
+                            border-radius: 50%;
+                            margin: 0 auto 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 36px;
+                          "
+                        >
+                          👨‍💼
+                        </div>
+                        <div style="font-weight: 600">CEO & Co-Founder</div>
+                        <div>15+ years in creator marketing</div>
+                      </div>
+                      <div>
+                        <div
+                          style="
+                            width: 80px;
+                            height: 80px;
+                            background-color: var(--primary-light);
+                            border-radius: 50%;
+                            margin: 0 auto 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 36px;
+                          "
+                        >
+                          👩‍💻
+                        </div>
+                        <div style="font-weight: 600">CTO & Co-Founder</div>
+                        <div>AI specialist with 10+ years experience</div>
+                      </div>
+                      <div>
+                        <div
+                          style="
+                            width: 80px;
+                            height: 80px;
+                            background-color: var(--warning-light);
+                            border-radius: 50%;
+                            margin: 0 auto 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 36px;
+                          "
+                        >
+                          💰
+                        </div>
+                        <div style="font-weight: 600">Fundraising</div>
+                        <div>Seeking $2M Seed</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pitch-content">
+                  <p><strong>Our Team:</strong></p>
+                  <p>
+                    We combine deep expertise in both the creator marketing
+                    space and AI technology development:
+                  </p>
+                  <ul>
+                    <li>
+                      <strong>CEO & Co-Founder:</strong> 15+ years in creator
+                      marketing, previously led influencer partnerships at major
+                      brands and agencies
+                    </li>
+                    <li>
+                      <strong>CTO & Co-Founder:</strong> AI specialist with 10+
+                      years experience, built recommendation systems and NLP
+                      solutions at scale
+                    </li>
+                    <li>
+                      <strong>Advisory Board:</strong> Top creators, brand
+                      marketing executives, and AI experts providing strategic
+                      guidance
+                    </li>
+                  </ul>
+
+                  <p><strong>Ask:</strong></p>
+                  <p>
+                    We're seeking $2M in seed funding to achieve the following
+                    milestones:
+                  </p>
+                  <ul>
+                    <li>
+                      Enhance AI agent capabilities and matching algorithms
+                    </li>
+                    <li>
+                      Scale to 1,000+ creators and 100+ brands within 12 months
+                    </li>
+                    <li>
+                      Build out engineering and business development teams
+                    </li>
+                    <li>Achieve $100K+ in MRR by end of year one</li>
+                  </ul>
+
+                  <p>
+                    With Y Combinator's support, we'll accelerate our
+                    development timeline and rapidly scale our user base,
+                    positioning Colecta AI to lead the next generation of
+                    creator-brand collaborations.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Demo Section -->
+      <section id="demo" class="section">
+        <h2 class="section-title">Interactive Experience Demo</h2>
+
+        <style>
+          /* Demo panel styles */
+          .demo-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+          }
+
+          .demo-panel {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 0;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid #eee;
+          }
+
+          .demo-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          }
+
+          .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
+          }
+
+          .demo-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+          }
+
+          .demo-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(
+              135deg,
+              var(--primary-light) 0%,
+              var(--purple-light) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 20px;
+          }
+
+          .demo-name {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 16px;
+          }
+
+          .demo-role {
+            font-size: 14px;
+            color: var(--medium);
+          }
+
+          .demo-status {
+            background-color: var(--success);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+          }
+
+          /* Improved tools bar */
+          .demo-tools {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 25px;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+          }
+
+          .demo-tabs {
+            display: flex;
+            gap: 15px;
+          }
+
+          .demo-tab {
+            padding: 8px 16px;
+            background-color: var(--light);
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+          }
+
+          .demo-tab.active {
+            background: linear-gradient(
+              90deg,
+              var(--primary) 0%,
+              var(--purple) 100%
+            );
+            color: var(--white);
+          }
+
+          .demo-views {
+            display: flex;
+            gap: 10px;
+          }
+
+          .demo-view {
+            padding: 8px 15px;
+            background-color: var(--light);
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+          }
+
+          .demo-view.active {
+            background-color: var(--dark);
+            color: var(--white);
+          }
+
+          /* Content area */
+          .demo-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 25px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .demo-content::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          .demo-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+
+          .demo-content::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 4px;
+          }
+
+          .demo-content::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+          }
+
+          /* Message styling improved */
+          .demo-message-container {
+            margin-bottom: 30px;
+            max-width: 85%;
+          }
+
+          .demo-message-container.ai {
+            align-self: flex-start;
+          }
+
+          .demo-message-container.user {
+            align-self: flex-end;
+          }
+
+          .demo-message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: var(--medium);
+          }
+
+          .demo-message {
+            padding: 18px 20px;
+            border-radius: 18px;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1.6;
+          }
+
+          .demo-message.ai {
+            background: linear-gradient(
+              135deg,
+              var(--primary-light) 0%,
+              rgba(235, 228, 255, 0.7) 100%
+            );
+            border-top-left-radius: 4px;
+            color: #333;
+          }
+
+          .demo-message.user {
+            background: linear-gradient(135deg, #f2f2f2 0%, #e6e6e6 100%);
+            border-top-right-radius: 4px;
+            color: #333;
+          }
+
+          .demo-message p {
+            margin-bottom: 15px;
+          }
+
+          .demo-message p:last-child {
+            margin-bottom: 0;
+          }
+
+          /* Interactive suggestion chips */
+          .demo-suggestions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+          }
+
+          .demo-suggestion {
+            padding: 10px 16px;
+            background-color: var(--white);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+          }
+
+          .demo-suggestion:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+          }
+
+          /* Action buttons */
+          .demo-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+          }
+
+          .demo-action {
+            padding: 8px 14px;
+            background-color: var(--white);
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          .demo-action:hover {
+            background-color: var(--light);
+            border-color: #ccc;
+          }
+
+          .demo-action.primary {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+          }
+
+          .demo-action.primary:hover {
+            background-color: var(--primary);
+            color: white;
+          }
+
+          /* Analytics card */
+          .demo-analytics {
+            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid #eee;
+          }
+
+          .demo-analytics-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .demo-analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+          }
+
+          .demo-analytics-metric {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          }
+
+          .demo-analytics-label {
+            font-size: 13px;
+            color: var(--medium);
+            margin-bottom: 5px;
+          }
+
+          .demo-analytics-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+          }
+
+          /* Improved input area */
+          .demo-input-container {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+          }
+
+          .demo-prompt-tools {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+          }
+
+          .demo-prompt-tool {
+            padding: 8px 12px;
+            background-color: var(--light);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          }
+
+          .demo-prompt-tool:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+          }
+
+          .demo-input {
+            display: flex;
+            gap: 10px;
+          }
+
+          .demo-input input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 15px;
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+          }
+
+          .demo-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 2px 15px rgba(89, 37, 220, 0.1);
+          }
+
+          .demo-button {
+            padding: 15px 25px;
+            background: linear-gradient(
+              90deg,
+              var(--primary) 0%,
+              var(--purple) 100%
+            );
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(89, 37, 220, 0.15);
+          }
+
+          .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(89, 37, 220, 0.2);
+          }
+
+          /* Card for benefits */
+          .demo-benefits {
+            margin-top: 50px;
+          }
+
+          .benefit-title {
+            font-size: 22px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+          }
+
+          .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+          }
+
+          .benefit-item {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            text-align: center;
+          }
+
+          .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+          }
+
+          .benefit-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary);
+          }
+
+          .benefit-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+          }
+
+          .benefit-description {
+            font-size: 15px;
+            color: var(--medium);
+          }
+
+          @media (max-width: 992px) {
+            .demo-container {
+              flex-direction: column;
+            }
+
+            .demo-panel {
+              min-height: 500px;
+            }
+          }
+        </style>
+
+        <div class="demo-container">
+          <div class="demo-panel" id="creator-panel">
+            <div class="demo-header">
+              <div class="demo-profile">
+                <div class="demo-avatar">S</div>
+                <div>
+                  <div class="demo-name">Sarah's AI Manager</div>
+                  <div class="demo-role">Creator Experience</div>
+                </div>
+              </div>
+              <div class="demo-status">Online</div>
+            </div>
+
+            <div class="demo-tools">
+              <div class="demo-tabs">
+                <div
+                  class="demo-tab active"
+                  data-panel="creator"
+                  data-tab="chat"
+                >
+                  Chat
+                </div>
+                <div
+                  class="demo-tab"
+                  data-panel="creator"
+                  data-tab="opportunities"
+                >
+                  Opportunities (3)
+                </div>
+                <div class="demo-tab" data-panel="creator" data-tab="analytics">
+                  Analytics
+                </div>
+              </div>
+              <div class="demo-views">
+                <div class="demo-view active" data-view="clean">Clean</div>
+                <div class="demo-view" data-view="detailed">Detailed</div>
+              </div>
+            </div>
+
+            <div class="demo-content" id="creator-content">
+              <div class="demo-message-container ai">
+                <div class="demo-message-header">
+                  <span>ColectaAI • Today at 10:32 AM</span>
+                </div>
+                <div class="demo-message ai">
+                  <p>
+                    Good morning, Sarah! I've found 3 new collaboration
+                    opportunities that match your style and audience. The most
+                    promising is from Eco Essentials, a sustainable beauty brand
+                    looking for content creators in the clean beauty space.
+                  </p>
+                  <div class="demo-suggestions">
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="Tell me more about the Eco Essentials opportunity"
+                    >
+                      Tell me more about Eco Essentials
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="What are the other opportunities?"
+                    >
+                      Show other opportunities
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="What makes this a good match for me?"
+                    >
+                      Why is this a good match?
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-message-container user">
+                <div class="demo-message-header">
+                  <span>You • Today at 10:33 AM</span>
+                </div>
+                <div class="demo-message user">
+                  <p>Tell me more about the Eco Essentials opportunity.</p>
+                </div>
+              </div>
+
+              <div class="demo-message-container ai">
+                <div class="demo-message-header">
+                  <span>ColectaAI • Today at 10:33 AM</span>
+                </div>
+                <div class="demo-message ai">
+                  <p>
+                    Eco Essentials is looking for creators to showcase their new
+                    skincare line. Based on your previous work with natural
+                    products and your audience demographics (78% female, 25-34,
+                    interested in sustainable living), this is a strong match
+                    (92% compatibility score).
+                  </p>
+                  <p>
+                    They're offering $1,500 for 2 Instagram posts and 3 stories.
+                    Based on your recent engagement rates and the brand's
+                    budget, I would recommend negotiating for $1,800-2,000,
+                    which is within their range for creators with your metrics.
+                  </p>
+                  <div class="demo-analytics">
+                    <div class="demo-analytics-title">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M3 3v18h18" />
+                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                      </svg>
+                      Opportunity Analysis
+                    </div>
+                    <div class="demo-analytics-grid">
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">
+                          Compatibility Score
+                        </div>
+                        <div class="demo-analytics-value">92%</div>
+                      </div>
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">Audience Match</div>
+                        <div class="demo-analytics-value">High</div>
+                      </div>
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">
+                          Content Alignment
+                        </div>
+                        <div class="demo-analytics-value">95%</div>
+                      </div>
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">Suggested Rate</div>
+                        <div class="demo-analytics-value">$1,800-2,000</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="demo-suggestions">
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="What do you know about their brand values?"
+                    >
+                      What are their brand values?
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="Can you draft a negotiation message for me?"
+                    >
+                      Draft negotiation message
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="What content type would work best?"
+                    >
+                      Best content approach?
+                    </div>
+                  </div>
+                  <div class="demo-actions">
+                    <div
+                      class="demo-action"
+                      data-panel="creator"
+                      data-action="view-brief"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        ></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                      </svg>
+                      View Full Brief
+                    </div>
+                    <div
+                      class="demo-action primary"
+                      data-panel="creator"
+                      data-action="express-interest"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                      </svg>
+                      Express Interest
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-message-container user">
+                <div class="demo-message-header">
+                  <span>You • Today at 10:35 AM</span>
+                </div>
+                <div class="demo-message user">
+                  <p>What do you know about their brand values?</p>
+                </div>
+              </div>
+
+              <div class="demo-message-container ai">
+                <div class="demo-message-header">
+                  <span>ColectaAI • Today at 10:35 AM</span>
+                </div>
+                <div class="demo-message ai">
+                  <p>
+                    Eco Essentials emphasizes plastic-free packaging,
+                    cruelty-free testing, and natural ingredients. These align
+                    well with your content themes of sustainability and natural
+                    living. Their aesthetic is minimalist with earth tones,
+                    similar to your recent content style.
+                  </p>
+                  <p>
+                    They value authenticity and education in their partnerships,
+                    looking for creators who can explain the benefits of natural
+                    ingredients rather than just showcasing the products. This
+                    matches your approach to creating detailed tutorials and
+                    ingredient breakdowns.
+                  </p>
+                  <p>
+                    They've also expressed interest in long-term partnerships
+                    rather than one-off posts, which aligns with your preference
+                    for building ongoing relationships with brands.
+                  </p>
+                  <div class="demo-suggestions">
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="Can you draft an application for me?"
+                    >
+                      Draft my application
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="Show me their past collaborations"
+                    >
+                      Past collaborations?
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="creator"
+                      data-message="What timeline are they looking at?"
+                    >
+                      What's their timeline?
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-input-container">
+                <div class="demo-prompt-tools">
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="creator"
+                    data-prompt-type="negotiate"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="1" x2="12" y2="23"></line>
+                      <path
+                        d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                      ></path>
+                    </svg>
+                    Negotiate
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="creator"
+                    data-prompt-type="content-ideas"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                    Content Ideas
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="creator"
+                    data-prompt-type="analytics"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M3 3v18h18" />
+                      <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                    </svg>
+                    Analytics
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="creator"
+                    data-prompt-type="timeline"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Timeline
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="creator"
+                    data-prompt-type="comparison"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="18" y1="20" x2="18" y2="10"></line>
+                      <line x1="12" y1="20" x2="12" y2="4"></line>
+                      <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    Compare Offers
+                  </div>
+                </div>
+                <div class="demo-input">
+                  <input
+                    type="text"
+                    id="creator-input"
+                    placeholder="Ask your AI agent anything about this opportunity..."
+                  />
+                  <button class="demo-button" id="creator-send">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-panel" id="brand-panel">
+            <div class="demo-header">
+              <div class="demo-profile">
+                <div class="demo-avatar">E</div>
+                <div>
+                  <div class="demo-name">Eco Essentials AI Manager</div>
+                  <div class="demo-role">Brand Experience</div>
+                </div>
+              </div>
+              <div class="demo-status">Online</div>
+            </div>
+
+            <div class="demo-tools">
+              <div class="demo-tabs">
+                <div class="demo-tab active" data-panel="brand" data-tab="chat">
+                  Chat
+                </div>
+                <div class="demo-tab" data-panel="brand" data-tab="creators">
+                  Creator Matches (5)
+                </div>
+                <div class="demo-tab" data-panel="brand" data-tab="campaigns">
+                  Campaigns
+                </div>
+              </div>
+              <div class="demo-views">
+                <div class="demo-view active" data-view="clean">Clean</div>
+                <div class="demo-view" data-view="detailed">Detailed</div>
+              </div>
+            </div>
+
+            <div class="demo-content" id="brand-content">
+              <div class="demo-message-container ai">
+                <div class="demo-message-header">
+                  <span>ColectaAI • Today at 9:45 AM</span>
+                </div>
+                <div class="demo-message ai">
+                  <p>
+                    Welcome back, Emma! I've analyzed your new campaign brief
+                    for the sustainable skincare line and identified 5
+                    highly-matched creators. Would you like to see the top
+                    recommendations?
+                  </p>
+                  <div class="demo-suggestions">
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="Yes, show me the top 3 creators"
+                    >
+                      Show top creators
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="What criteria did you use to match them?"
+                    >
+                      Matching criteria?
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="What's the estimated budget range?"
+                    >
+                      Budget estimates?
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-message-container user">
+                <div class="demo-message-header">
+                  <span>You • Today at 9:46 AM</span>
+                </div>
+                <div class="demo-message user">
+                  <p>Yes, show me the top 3 creators.</p>
+                </div>
+              </div>
+
+              <div class="demo-message-container ai">
+                <div class="demo-message-header">
+                  <span>ColectaAI • Today at 9:46 AM</span>
+                </div>
+                <div class="demo-message ai">
+                  <p>
+                    Here are your top 3 matches based on your campaign goals,
+                    brand values, and product aesthetic:
+                  </p>
+                  <p>
+                    <strong>1. Sarah Johnson - 92% Match</strong><br />30K
+                    followers, 4.2% engagement rate<br />Clean beauty and
+                    sustainable lifestyle content<br />Audience: 78% female,
+                    25-34, interests in wellness and eco-friendly products
+                  </p>
+                  <p>
+                    <strong>2. Michael Chen - 87% Match</strong><br />45K
+                    followers, 3.8% engagement rate<br />Ethical lifestyle and
+                    product reviews<br />Audience: 65% female, 28-38, interests
+                    in sustainable brands
+                  </p>
+                  <p>
+                    <strong>3. Aisha Patel - 85% Match</strong><br />27K
+                    followers, 5.1% engagement rate<br />Vegan beauty and
+                    zero-waste living<br />Audience: 82% female, 22-30,
+                    interests in plant-based living
+                  </p>
+                  <div class="demo-actions">
+                    <div
+                      class="demo-action"
+                      data-panel="brand"
+                      data-action="view-all"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                      View All Matches
+                    </div>
+                    <div
+                      class="demo-action"
+                      data-panel="brand"
+                      data-action="adjust-criteria"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                      </svg>
+                      Adjust Criteria
+                    </div>
+                  </div>
+                  <div class="demo-suggestions">
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="Tell me more about Sarah"
+                    >
+                      More about Sarah
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="What would be the estimated ROI for Sarah?"
+                    >
+                      Estimated ROI?
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="Show me Sarah's past collaborations"
+                    >
+                      Past collaborations?
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-message-container user">
+                <div class="demo-message-header">
+                  <span>You • Today at 9:48 AM</span>
+                </div>
+                <div class="demo-message user">
+                  <p>What would be the estimated ROI for working with Sarah?</p>
+                </div>
+              </div>
+
+              <div class="demo-message-container ai">
+                <div class="demo-message-header">
+                  <span>ColectaAI • Today at 9:48 AM</span>
+                </div>
+                <div class="demo-message ai">
+                  <p>
+                    Based on Sarah's previous beauty product campaigns and your
+                    campaign goals, I estimate:
+                  </p>
+                  <div class="demo-analytics">
+                    <div class="demo-analytics-title">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M3 3v18h18" />
+                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                      </svg>
+                      ROI Projection
+                    </div>
+                    <div class="demo-analytics-grid">
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">Reach</div>
+                        <div class="demo-analytics-value">38K-42K</div>
+                      </div>
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">Engagement</div>
+                        <div class="demo-analytics-value">1.6K-1.9K</div>
+                      </div>
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">Website Visits</div>
+                        <div class="demo-analytics-value">800-950</div>
+                      </div>
+                      <div class="demo-analytics-metric">
+                        <div class="demo-analytics-label">Conversions</div>
+                        <div class="demo-analytics-value">40-55 ($65 AOV)</div>
+                      </div>
+                    </div>
+                    <div
+                      style="
+                        margin-top: 15px;
+                        text-align: center;
+                        font-weight: 600;
+                        color: var(--primary);
+                      "
+                    >
+                      Projected ROI: 1.8-2.3x your investment
+                    </div>
+                  </div>
+                  <p>
+                    This estimate is based on a $1,800 collaboration fee, which
+                    is within your budget range. Sarah's audience has shown high
+                    conversion rates for sustainable beauty products, especially
+                    when content includes educational elements about
+                    ingredients.
+                  </p>
+                  <p>
+                    Her engagement-to-conversion ratio is approximately 25%
+                    higher than average for your industry, making her
+                    particularly valuable despite her moderate follower count.
+                  </p>
+                  <div class="demo-suggestions">
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="Can we optimize this collaboration further?"
+                    >
+                      Optimization ideas?
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="How does this compare to our previous campaigns?"
+                    >
+                      Compare to past campaigns
+                    </div>
+                    <div
+                      class="demo-suggestion"
+                      data-panel="brand"
+                      data-message="Let's reach out to Sarah"
+                    >
+                      Initiate contact
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-input-container">
+                <div class="demo-prompt-tools">
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="brand"
+                    data-prompt-type="roi"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                      ></path>
+                    </svg>
+                    ROI Analysis
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="brand"
+                    data-prompt-type="campaigns"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                      ></path>
+                      <rect
+                        x="8"
+                        y="2"
+                        width="8"
+                        height="4"
+                        rx="1"
+                        ry="1"
+                      ></rect>
+                    </svg>
+                    Campaign Brief
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="brand"
+                    data-prompt-type="audience"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                      ></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    Audience Match
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="brand"
+                    data-prompt-type="negotiate"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                      <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                      <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    Negotiation
+                  </div>
+                  <div
+                    class="demo-prompt-tool"
+                    data-panel="brand"
+                    data-prompt-type="timeline"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Timeline
+                  </div>
+                </div>
+                <div class="demo-input">
+                  <input
+                    type="text"
+                    id="brand-input"
+                    placeholder="Ask your AI agent anything about these creators..."
+                  />
+                  <button class="demo-button" id="brand-send">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">How Our AI Agents Create Value</h3>
+          <p>
+            The interactive demo above illustrates how our personalized AI
+            agents transform the collaboration process for both creators and
+            brands:
+          </p>
+
+          <div class="benefit-grid">
+            <div class="benefit-item">
+              <div class="benefit-icon">🔍</div>
+              <h4 class="benefit-name">Proactive Opportunity Identification</h4>
+              <p class="benefit-description">
+                AI agents find relevant opportunities without users having to
+                search, saving hours of manual work.
+              </p>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon">🧩</div>
+              <h4 class="benefit-name">Deep Compatibility Analysis</h4>
+              <p class="benefit-description">
+                Matches are based on multiple dimensions including audience,
+                aesthetics, content style, and brand values.
+              </p>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon">📊</div>
+              <h4 class="benefit-name">Data-Driven Recommendations</h4>
+              <p class="benefit-description">
+                Agents provide insights on pricing, content approach, and ROI
+                projections based on historical data.
+              </p>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon">⚡</div>
+              <h4 class="benefit-name">Efficiency Gains</h4>
+              <p class="benefit-description">
+                The entire process takes minutes instead of hours, with AI
+                agents handling the heavy lifting.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Handle demo suggestions
+          const suggestions = document.querySelectorAll(".demo-suggestion");
+          suggestions.forEach((suggestion) => {
+            suggestion.addEventListener("click", function () {
+              const panel = this.getAttribute("data-panel");
+              const message = this.getAttribute("data-message");
+              addUserMessage(panel, message);
+
+              // Add AI response based on the message after a short delay
+              setTimeout(() => {
+                addAIResponse(panel, message);
+              }, 1000);
+            });
+          });
+
+          // Handle demo action buttons
+          const actions = document.querySelectorAll(".demo-action");
+          actions.forEach((action) => {
+            action.addEventListener("click", function () {
+              const panel = this.getAttribute("data-panel");
+              const actionType = this.getAttribute("data-action");
+
+              // Perform action based on type
+              switch (actionType) {
+                case "express-interest":
+                  addUserMessage(
+                    panel,
+                    "I'm interested in this opportunity. Can you help me prepare a proposal?"
+                  );
+                  setTimeout(() => {
+                    addAIResponse(panel, "interest");
+                  }, 1000);
+                  break;
+                case "view-brief":
+                  alert(
+                    "Full brief would be displayed here in the actual application."
+                  );
+                  break;
+                case "view-all":
+                  alert(
+                    "All creator matches would be displayed here in the actual application."
+                  );
+                  break;
+                case "adjust-criteria":
+                  alert(
+                    "Criteria adjustment interface would appear here in the actual application."
+                  );
+                  break;
+              }
+            });
+          });
+
+          // Handle prompt tools
+          const promptTools = document.querySelectorAll(".demo-prompt-tool");
+          promptTools.forEach((tool) => {
+            tool.addEventListener("click", function () {
+              const panel = this.getAttribute("data-panel");
+              const promptType = this.getAttribute("data-prompt-type");
+
+              // Set placeholder text based on prompt type
+              let placeholder = "";
+              switch (promptType) {
+                case "negotiate":
+                  placeholder =
+                    "Help me negotiate a better rate for this collaboration...";
+                  break;
+                case "content-ideas":
+                  placeholder =
+                    "Generate content ideas that would work well for this brand...";
+                  break;
+                case "analytics":
+                  placeholder =
+                    "Analyze my past performance with similar brands...";
+                  break;
+                case "roi":
+                  placeholder =
+                    "Calculate potential ROI for this collaboration...";
+                  break;
+                case "audience":
+                  placeholder =
+                    "How well does this creator's audience match our target market?";
+                  break;
+                default:
+                  placeholder = `Ask about ${promptType}...`;
+              }
+
+              // Update input placeholder
+              document.getElementById(`${panel}-input`).placeholder =
+                placeholder;
+              document.getElementById(`${panel}-input`).focus();
+            });
+          });
+
+          // Handle send buttons
+          document
+            .getElementById("creator-send")
+            .addEventListener("click", function () {
+              sendMessage("creator");
+            });
+
+          document
+            .getElementById("brand-send")
+            .addEventListener("click", function () {
+              sendMessage("brand");
+            });
+
+          // Handle input keypress (Enter)
+          document
+            .getElementById("creator-input")
+            .addEventListener("keypress", function (e) {
+              if (e.key === "Enter") {
+                sendMessage("creator");
+              }
+            });
+
+          document
+            .getElementById("brand-input")
+            .addEventListener("keypress", function (e) {
+              if (e.key === "Enter") {
+                sendMessage("brand");
+              }
+            });
+
+          // Handle tabs
+          const tabs = document.querySelectorAll(".demo-tab");
+          tabs.forEach((tab) => {
+            tab.addEventListener("click", function () {
+              const panel = this.getAttribute("data-panel");
+              const tabName = this.getAttribute("data-tab");
+
+              // Remove active class from all tabs in this panel
+              document
+                .querySelectorAll(`.demo-tab[data-panel="${panel}"]`)
+                .forEach((t) => {
+                  t.classList.remove("active");
+                });
+
+              // Add active class to clicked tab
+              this.classList.add("active");
+
+              // For now just alert about the tab change
+              alert(
+                `In the actual application, this would switch to the ${tabName} view.`
+              );
+            });
+          });
+
+          // Handle view switches
+          const views = document.querySelectorAll(".demo-view");
+          views.forEach((view) => {
+            view.addEventListener("click", function () {
+              const viewType = this.getAttribute("data-view");
+
+              // Remove active class from all views in this panel
+              this.parentElement.querySelectorAll(".demo-view").forEach((v) => {
+                v.classList.remove("active");
+              });
+
+              // Add active class to clicked view
+              this.classList.add("active");
+
+              // For now just alert about the view change
+              alert(
+                `In the actual application, this would switch to ${viewType} view mode.`
+              );
+            });
+          });
+
+          // Function to send a message
+          function sendMessage(panel) {
+            const inputEl = document.getElementById(`${panel}-input`);
+            const message = inputEl.value.trim();
+
+            if (message) {
+              addUserMessage(panel, message);
+              inputEl.value = "";
+
+              // Add AI response after a short delay
+              setTimeout(() => {
+                addAIResponse(panel, message);
+              }, 1000);
+            }
+          }
+
+          // Function to add user message to the conversation
+          function addUserMessage(panel, message) {
+            const contentEl = document.getElementById(`${panel}-content`);
+
+            const container = document.createElement("div");
+            container.className = "demo-message-container user";
+
+            const header = document.createElement("div");
+            header.className = "demo-message-header";
+            header.innerHTML = `<span>You • Just now</span>`;
+
+            const messageEl = document.createElement("div");
+            messageEl.className = "demo-message user";
+            messageEl.innerHTML = `<p>${message}</p>`;
+
+            container.appendChild(header);
+            container.appendChild(messageEl);
+
+            // Insert before the input container
+            const inputContainer = contentEl.querySelector(
+              ".demo-input-container"
+            );
+            contentEl.insertBefore(container, inputContainer);
+
+            // Scroll to bottom
+            contentEl.scrollTop = contentEl.scrollHeight;
+          }
+
+          // Function to add AI response
+          function addAIResponse(panel, userMessage) {
+            const contentEl = document.getElementById(`${panel}-content`);
+            let responseHTML = "";
+
+            // Generate response based on user message
+            if (panel === "creator") {
+              if (userMessage.toLowerCase().includes("interest")) {
+                responseHTML = `
+                <p>Great! I'll help you prepare a strong proposal for Eco Essentials. Based on your profile and their requirements, I suggest highlighting:</p>
+                <ol>
+                  <li>Your experience with sustainable beauty products</li>
+                  <li>Your audience's high engagement with educational content about natural ingredients</li>
+                  <li>Your authentic approach to showcasing products in real routines</li>
+                </ol>
+                <p>I've drafted a personalized pitch that emphasizes these strengths and proposes $1,900 for the collaboration, which is within their budget while reflecting your value. Would you like to review it?</p>
+              `;
+              } else if (
+                userMessage.toLowerCase().includes("timeline") ||
+                userMessage.toLowerCase().includes("when")
+              ) {
+                responseHTML = `
+                <p>Eco Essentials is flexible on content delivery dates, with a preferred timeline of 3-4 weeks from now. Their campaign launches in 6 weeks, so they need content finalized at least 2 weeks before that.</p>
+                <p>This timeline aligns well with your current schedule, as you'll have completed your wellness retreat collaboration next week, giving you adequate time to focus on this project.</p>
+              `;
+              } else if (
+                userMessage.toLowerCase().includes("content") ||
+                userMessage.toLowerCase().includes("approach")
+              ) {
+                responseHTML = `
+                <p>Based on your style and Eco Essentials' brand aesthetic, I recommend:</p>
+                <ol>
+                  <li><strong>Tutorial format</strong> for one post, showing how to incorporate their products into a clean beauty routine</li>
+                  <li><strong>Ingredients spotlight</strong> for the second post, highlighting the sustainable aspects</li>
+                  <li><strong>Day-in-the-life stories</strong> showing authentic product usage</li>
+                </ol>
+                <p>Their minimalist aesthetic would pair well with your natural lighting style and earth-tone color palette that you've used in recent posts.</p>
+              `;
+              } else {
+                responseHTML = `
+                <p>I'll analyze that for you. From my understanding of Eco Essentials and your content style, this collaboration has strong potential. Their audience demographics overlap with yours by approximately 85%, particularly in the sustainable lifestyle segment.</p>
+                <p>Would you like me to help you prepare a proposal or would you like more specific information about any aspect of this opportunity?</p>
+              `;
+              }
+            } else if (panel === "brand") {
+              if (
+                userMessage.toLowerCase().includes("initiate") ||
+                userMessage.toLowerCase().includes("contact") ||
+                userMessage.toLowerCase().includes("reach out")
+              ) {
+                responseHTML = `
+                <p>I'll prepare an outreach message to Sarah based on your campaign brief. Here's what I recommend including:</p>
+                <ol>
+                  <li>Introduction to Eco Essentials and your sustainable skincare line</li>
+                  <li>Specific mention of why her content style and audience are a good fit</li>
+                  <li>Outline of the collaboration scope (2 posts, 3 stories)</li>
+                  <li>Proposed compensation range ($1,500-2,000)</li>
+                  <li>Timeline flexibility and next steps</li>
+                </ol>
+                <p>Would you like me to draft this message for you to review before sending?</p>
+              `;
+              } else if (
+                userMessage.toLowerCase().includes("optimization") ||
+                userMessage.toLowerCase().includes("optimize")
+              ) {
+                responseHTML = `
+                <p>To further optimize this collaboration with Sarah, I recommend:</p>
+                <ol>
+                  <li><strong>Add a tutorial element</strong> - Her educational content gets 27% higher conversion rates</li>
+                  <li><strong>Include a limited-time discount code</strong> - This improved tracking and conversions in her previous collaborations</li>
+                  <li><strong>Consider story highlights</strong> - Allowing her to save stories to highlights extends content lifespan</li>
+                  <li><strong>Request behind-the-scenes content</strong> - Her audience responds well to authentic development stories</li>
+                </ol>
+                <p>These optimizations could potentially increase your ROI by 15-20% based on her previous campaign performance patterns.</p>
+              `;
+              } else if (
+                userMessage.toLowerCase().includes("compare") ||
+                userMessage.toLowerCase().includes("previous")
+              ) {
+                responseHTML = `
+                <p>Compared to your previous campaigns:</p>
+                <div class="demo-analytics">
+                  <div class="demo-analytics-grid">
+                    <div class="demo-analytics-metric">
+                      <div class="demo-analytics-label">Avg. Engagement Rate</div>
+                      <div class="demo-analytics-value">3.7% vs 4.2% (Sarah)</div>
+                    </div>
+                    <div class="demo-analytics-metric">
+                      <div class="demo-analytics-label">Avg. CTR</div>
+                      <div class="demo-analytics-value">2.1% vs 2.9% (Sarah)</div>
+                    </div>
+                    <div class="demo-analytics-metric">
+                      <div class="demo-analytics-label">Avg. Conversion Rate</div>
+                      <div class="demo-analytics-value">1.3% vs 1.8% (Sarah)</div>
+                    </div>
+                    <div class="demo-analytics-metric">
+                      <div class="demo-analytics-label">Avg. ROI</div>
+                      <div class="demo-analytics-value">1.4x vs 2.0x (Sarah)</div>
+                    </div>
+                  </div>
+                </div>
+                <p>Sarah outperforms your campaign averages across all key metrics, particularly in conversion rate and CTR, which indicates her audience not only engages but takes action based on her recommendations.</p>
+              `;
+              } else {
+                responseHTML = `
+                <p>I've analyzed that request against our campaign data. Based on our goals of reaching environmentally-conscious consumers aged 25-35, Sarah represents an excellent opportunity with strong alignment to our brand values and aesthetic.</p>
+                <p>Would you like me to initiate contact with her or provide more specific information about any aspect of her profile?</p>
+              `;
+              }
+            }
+
+            const container = document.createElement("div");
+            container.className = "demo-message-container ai";
+
+            const header = document.createElement("div");
+            header.className = "demo-message-header";
+            header.innerHTML = `<span>ColectaAI • Just now</span>`;
+
+            const messageEl = document.createElement("div");
+            messageEl.className = "demo-message ai";
+            messageEl.innerHTML = responseHTML;
+
+            // Add suggestions
+            const suggestions = document.createElement("div");
+            suggestions.className = "demo-suggestions";
+
+            if (panel === "creator") {
+              suggestions.innerHTML = `
+              <div class="demo-suggestion" data-panel="creator" data-message="What's the next step?">What's next?</div>
+              <div class="demo-suggestion" data-panel="creator" data-message="Can you give me more details?">More details</div>
+              <div class="demo-suggestion" data-panel="creator" data-message="How does this fit with my other collaborations?">Schedule fit?</div>
+            `;
+            } else {
+              suggestions.innerHTML = `
+              <div class="demo-suggestion" data-panel="brand" data-message="Let's move forward with Sarah">Proceed with Sarah</div>
+              <div class="demo-suggestion" data-panel="brand" data-message="Can we customize the collaboration terms?">Customize terms</div>
+              <div class="demo-suggestion" data-panel="brand" data-message="Show me other potential creators">Other options?</div>
+            `;
+            }
+
+            messageEl.appendChild(suggestions);
+
+            container.appendChild(header);
+            container.appendChild(messageEl);
+
+            // Insert before the input container
+            const inputContainer = contentEl.querySelector(
+              ".demo-input-container"
+            );
+            contentEl.insertBefore(container, inputContainer);
+
+            // Add suggestion click handlers to the new suggestions
+            container
+              .querySelectorAll(".demo-suggestion")
+              .forEach((suggestion) => {
+                suggestion.addEventListener("click", function () {
+                  const suggestionPanel = this.getAttribute("data-panel");
+                  const suggestionMessage = this.getAttribute("data-message");
+                  addUserMessage(suggestionPanel, suggestionMessage);
+
+                  // Add AI response after a short delay
+                  setTimeout(() => {
+                    addAIResponse(suggestionPanel, suggestionMessage);
+                  }, 1000);
+                });
+              });
+
+            // Scroll to bottom
+            contentEl.scrollTop = contentEl.scrollHeight;
+          }
+        });
+      </script>
+
+      <!-- Implementation Tracker Section -->
+      <section id="tracking" class="section">
+        <h2 class="section-title">Implementation Progress Tracker</h2>
+
+        <style>
+          .tracker-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+          }
+          .tracker-table th,
+          .tracker-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+          }
+          .tracker-table th {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+          }
+          .tracker-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+          }
+          .tracker-checkbox:checked {
+            background-color: var(--primary);
+          }
+          .tracker-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+          }
+          .child-checkbox {
+            margin-left: 20px;
+          }
+          .child-flow-row {
+            background-color: #f9f9f9;
+          }
+          .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            padding: 3px;
+            border-radius: 3px;
+            margin-top: 10px;
+          }
+          .progress-bar-fill {
+            height: 10px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: width 0.5s ease-in-out;
+          }
+          .feature-details {
+            font-size: 0.9em;
+            color: var(--medium);
+            margin-top: 5px;
+          }
+        </style>
+
+        <div class="card">
+          <h3 class="card-title">MVP Implementation Tracker</h3>
+          <p>
+            Track the progress of our Personalized AI Agents project. Click
+            checkboxes to update completion status.
+          </p>
+
+          <table class="tracker-table" id="implementation-tracker">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>MVP Scope</th>
+                <th>Future Development</th>
+                <th>Status</th>
+                <th>Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Creator Profiles</td>
+                <td>
+                  Basic profile setup with portfolio, metrics, and preferences
+                  <div class="feature-details">
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Portfolio Integration
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Metrics Capture
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Preference Configuration
+                  </div>
+                </td>
+                <td>Automatic content analysis and style detection</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    class="tracker-checkbox"
+                    data-progress="70"
+                  />
+                </td>
+                <td>
+                  <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 70%"></div>
+                  </div>
+                  <span class="progress-text">70%</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Brand Profiles</td>
+                <td>
+                  Campaign objectives, brand guidelines, target audience
+                  <div class="feature-details">
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Objective Capture
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Guidelines Setup
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Audience Targeting
+                  </div>
+                </td>
+                <td>Automatic brand voice analysis and competitor analysis</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    class="tracker-checkbox"
+                    data-progress="65"
+                  />
+                </td>
+                <td>
+                  <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 65%"></div>
+                  </div>
+                  <span class="progress-text">65%</span>
+                </td>
+              </tr>
+              <tr>
+                <td>AI Matching</td>
+                <td>
+                  Initial match algorithm with 3 key dimensions
+                  <div class="feature-details">
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Content Aesthetic Matching
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Audience Demographic Analysis
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Brand Value Compatibility
+                  </div>
+                </td>
+                <td>
+                  Advanced multi-dimensional matching with performance learning
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    class="tracker-checkbox"
+                    data-progress="50"
+                  />
+                </td>
+                <td>
+                  <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 50%"></div>
+                  </div>
+                  <span class="progress-text">50%</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Agent Interface</td>
+                <td>
+                  Simple chat interface with guided workflows
+                  <div class="feature-details">
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Basic Conversation Flow
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Guided Interaction Design
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Context Retention
+                  </div>
+                </td>
+                <td>
+                  Advanced conversational capabilities and initiative-taking
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    class="tracker-checkbox"
+                    data-progress="60"
+                  />
+                </td>
+                <td>
+                  <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 60%"></div>
+                  </div>
+                  <span class="progress-text">60%</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Collaboration Management</td>
+                <td>
+                  Basic collaboration workflow and communication
+                  <div class="feature-details">
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Opportunity Presentation
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Communication Tracking
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Basic Negotiation Flow
+                  </div>
+                </td>
+                <td>Full project management with deadline tracking</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    class="tracker-checkbox"
+                    data-progress="45"
+                  />
+                </td>
+                <td>
+                  <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 45%"></div>
+                  </div>
+                  <span class="progress-text">45%</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Analytics</td>
+                <td>
+                  Simple performance metrics dashboard
+                  <div class="feature-details">
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Basic Performance Tracking
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Collaboration Metrics
+                    <br />
+                    <input
+                      type="checkbox"
+                      class="tracker-checkbox child-checkbox"
+                    />
+                    Dashboard Visualization
+                  </div>
+                </td>
+                <td>Advanced analytics with predictive insights</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    class="tracker-checkbox"
+                    data-progress="40"
+                  />
+                </td>
+                <td>
+                  <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 40%"></div>
+                  </div>
+                  <span class="progress-text">40%</span>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <div class="progress-bar" style="margin-top: 15px">
+                    <div
+                      class="progress-bar-fill"
+                      id="overall-progress"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                  <div style="text-align: center; margin-top: 10px">
+                    <strong
+                      >Overall Project Progress:
+                      <span id="total-progress">0%</span></strong
+                    >
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const tracker = document.getElementById("implementation-tracker");
+            const featureRows = tracker.querySelectorAll("tbody tr");
+            const overallProgressBar =
+              document.getElementById("overall-progress");
+            const totalProgressText = document.getElementById("total-progress");
+
+            function calculateOverallProgress() {
+              let totalProgress = 0;
+              const featureCount = featureRows.length;
+
+              featureRows.forEach((row) => {
+                const mainCheckbox = row.querySelector(
+                  ".tracker-checkbox:not(.child-checkbox)"
+                );
+                const childCheckboxes = row.querySelectorAll(
+                  ".tracker-checkbox.child-checkbox"
+                );
+                const progressBar = row.querySelector(".progress-bar-fill");
+                const progressText = row.querySelector(".progress-text");
+
+                // Calculate progress based on child checkboxes
+                const checkedChildCount = Array.from(childCheckboxes).filter(
+                  (cb) => cb.checked
+                ).length;
+                const childProgress =
+                  childCheckboxes.length > 0
+                    ? Math.round(
+                        (checkedChildCount / childCheckboxes.length) * 100
+                      )
+                    : 0;
+
+                // Update main feature progress
+                progressBar.style.width = `${childProgress}%`;
+                progressText.textContent = `${childProgress}%`;
+
+                // Optional: Update main checkbox if all child checkboxes are checked
+                if (checkedChildCount === childCheckboxes.length) {
+                  mainCheckbox.checked = true;
+                }
+
+                // Add to total progress
+                totalProgress += childProgress;
+              });
+
+              // Calculate and display overall progress
+              const overallProgress =
+                featureCount > 0 ? Math.round(totalProgress / featureCount) : 0;
+              overallProgressBar.style.width = `${overallProgress}%`;
+              totalProgressText.textContent = `${overallProgress}%`;
+            }
+
+            // Add event listeners to child checkboxes
+            tracker
+              .querySelectorAll(".tracker-checkbox.child-checkbox")
+              .forEach((checkbox) => {
+                checkbox.addEventListener("change", calculateOverallProgress);
+              });
+
+            // Initial calculation
+            calculateOverallProgress();
+          });
+        </script>
+      </section>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Get all navigation buttons
+          const navButtons = document.querySelectorAll(".nav-button");
+
+          // Get all sections
+          const sections = document.querySelectorAll(".section");
+
+          // Add click event listener to each navigation button
+          navButtons.forEach((button) => {
+            button.addEventListener("click", function () {
+              // Get the section to show
+              const sectionToShow = this.getAttribute("data-section");
+
+              // Remove active class from all buttons
+              navButtons.forEach((btn) => {
+                btn.classList.remove("active");
+              });
+
+              // Add active class to clicked button
+              this.classList.add("active");
+
+              // Hide all sections
+              sections.forEach((section) => {
+                section.classList.remove("active");
+              });
+
+              // Show the selected section
+              const activeSection = document.getElementById(sectionToShow);
+              if (activeSection) {
+                activeSection.classList.add("active");
+              }
+            });
+          });
+        });
+      </script>
+    </div>
+  </body>
+</html>
